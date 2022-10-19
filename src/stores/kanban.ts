@@ -1,6 +1,6 @@
 import { setLocalStorage } from "./../utils/local-storage.util";
 import { getLocalStorage } from "../utils/local-storage.util";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { TaskModel } from "@/models/task.model";
 import type { ColumnModel } from "@/models/column.model";
@@ -8,7 +8,6 @@ import type { ColumnModel } from "@/models/column.model";
 export const useKanbanStore = defineStore("kanban", () => {
   const tasks = ref<TaskModel[]>([]);
   const columns = ref<ColumnModel[]>([]);
-  const todo = computed(() => tasks.value.filter((t) => t.status === "todo"));
 
   function pushNewTask(task: Partial<TaskModel>) {
     task.id = self.crypto.randomUUID();
@@ -27,7 +26,7 @@ export const useKanbanStore = defineStore("kanban", () => {
   }
 
   function initColumns() {
-    columns.value = [
+    const initialColumns = [
       {
         id: self.crypto.randomUUID(),
         title: "To Do",
@@ -44,6 +43,8 @@ export const useKanbanStore = defineStore("kanban", () => {
         order: 2,
       },
     ];
+    columns.value = initialColumns;
+    setLocalStorage("columns", columns.value);
   }
 
   function getColumnsFromLocalStorage() {
@@ -64,7 +65,6 @@ export const useKanbanStore = defineStore("kanban", () => {
 
   return {
     tasks,
-    todo,
     columns,
     pushNewTask,
     getTasksFromLocalStorage,

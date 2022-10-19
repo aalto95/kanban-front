@@ -1,17 +1,11 @@
 <script setup lang="ts">
-import { useKanbanStore } from "@/stores/kanban";
+import { useModalStore } from "@/stores/modal";
 import { PlusIcon, ViewColumnsIcon } from "@heroicons/vue/24/solid";
 
-const kanban = useKanbanStore();
+const modal = useModalStore();
 
 function handleAdd() {
-  console.log("do");
-  kanban.pushNewTask({
-    id: self.crypto.randomUUID(),
-    title: "New Todo",
-    description: "New Todo Description",
-    status: "todo",
-  });
+  modal.toggleModal(true);
 }
 </script>
 
