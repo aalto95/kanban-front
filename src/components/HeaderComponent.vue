@@ -21,26 +21,27 @@ function handleAdd() {
     w:justify="between"
     w:items="center"
     w:bg="true-gray-800"
-    w:h="24"
-    w:px="8"
-    class="3 border-b border-true-gray-700"
+    w:h="16 md:24"
+    w:px="4 md:8"
+    w:border="b true-gray-700"
+    w:mb="2"
   >
     <h1
-      w:text="white 3xl"
+      w:text="white xl md:3xl"
       w:font="bold"
       w:display="flex"
       w:justify="center"
       w:items="center"
       w:gap="2"
     >
+      <ViewColumnsIcon class="w-9 md:w-12" />
       Kanban
-      <ViewColumnsIcon class="w-12 h-12" />
     </h1>
     <div>
       <button
         w:bg="indigo-500"
         w:border="rounded-full"
-        w:p="3"
+        w:p="2 md:3"
         w:text="white"
         w:display="flex"
         w:justify="center"
@@ -49,7 +50,7 @@ function handleAdd() {
         @click="handleAdd()"
       >
         <PlusIcon class="w-6 h-6" />
-        Add New Task
+        <p w:display="hidden md:block">Add New Task</p>
       </button>
     </div>
   </header>
