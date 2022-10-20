@@ -1,7 +1,7 @@
 <template>
   <div
     w:blur="xl"
-    w:position="absolute"
+    w:position="fixed"
     w:h="screen"
     w:w="screen"
     w:top="0"

@@ -12,7 +12,7 @@ function handleAdd() {
 <template>
   <header
     w:display="flex"
-    w:justify="between"
+    w:justify="end"
     w:items="center"
     w:bg="true-gray-800"
     w:h="16 md:24"
@@ -20,17 +20,6 @@ function handleAdd() {
     w:border="b true-gray-700"
     w:mb="4"
   >
-    <h1
-      w:text="white xl md:3xl"
-      w:font="bold"
-      w:display="flex"
-      w:justify="center"
-      w:items="center"
-      w:gap="2"
-    >
-      <ViewColumnsIcon class="w-9 md:w-12" />
-      Kanban
-    </h1>
     <div>
       <button
         w:bg="indigo-500"
