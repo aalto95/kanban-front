@@ -31,16 +31,19 @@ export const useKanbanStore = defineStore("kanban", () => {
         id: self.crypto.randomUUID(),
         title: "To Do",
         order: 0,
+        color: "bg-red-100",
       },
       {
         id: self.crypto.randomUUID(),
         title: "In Progress",
         order: 1,
+        color: "bg-yellow-100",
       },
       {
         id: self.crypto.randomUUID(),
         title: "Done",
         order: 2,
+        color: "bg-green-100",
       },
     ];
     columns.value = initialColumns;

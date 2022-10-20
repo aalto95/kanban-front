@@ -18,7 +18,7 @@ function handleAdd() {
     w:h="16 md:24"
     w:px="4 md:8"
     w:border="b true-gray-700"
-    w:mb="2"
+    w:mb="4"
   >
     <h1
       w:text="white xl md:3xl"
