@@ -1,7 +1,4 @@
-import {
-  getLocalStorage,
-  setLocalStorage,
-} from "./../utils/local-storage.util";
+import { getLocalStorage, setLocalStorage } from "@/utils/local-storage.util";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 

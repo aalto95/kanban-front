@@ -1,5 +1,6 @@
-import { setLocalStorage } from "./../utils/local-storage.util";
-import { getLocalStorage } from "../utils/local-storage.util";
+import type { BoardModel } from "@/models/board.model";
+import { setLocalStorage } from "@/utils/local-storage.util";
+import { getLocalStorage } from "@/utils/local-storage.util";
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { TaskModel } from "@/models/task.model";
@@ -8,6 +9,7 @@ import type { ColumnModel } from "@/models/column.model";
 export const useKanbanStore = defineStore("kanban", () => {
   const tasks = ref<TaskModel[]>([]);
   const columns = ref<ColumnModel[]>([]);
+  const boards = ref<BoardModel[]>([]);
 
   function pushNewTask(task: Partial<TaskModel>) {
     task.id = self.crypto.randomUUID();
@@ -23,6 +25,22 @@ export const useKanbanStore = defineStore("kanban", () => {
   function getTasksFromLocalStorage() {
     const tasksFromLocalStorage = getLocalStorage("tasks");
     tasksFromLocalStorage && (tasks.value = tasksFromLocalStorage);
+  }
+
+  function pushNewBoard(board: Partial<BoardModel>) {
+    board.id = self.crypto.randomUUID();
+    boards.value.push(board as BoardModel);
+    setLocalStorage("boards", boards.value);
+  }
+
+  function removeBoard(board: BoardModel) {
+    boards.value = boards.value.filter((b) => b.id !== board.id);
+    setLocalStorage("boards", boards.value);
+  }
+
+  function getBoardsFromLocalStorage() {
+    const desksFromLocalStorage = getLocalStorage("desks");
+    desksFromLocalStorage && (boards.value = desksFromLocalStorage);
   }
 
   function initColumns() {
@@ -75,5 +93,8 @@ export const useKanbanStore = defineStore("kanban", () => {
     pushNewColumn,
     removeTask,
     removeColumn,
+    pushNewBoard,
+    removeBoard,
+    getBoardsFromLocalStorage,
   };
 });

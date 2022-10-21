@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useModalStore } from "@/stores/modal";
-import { PlusIcon, ViewColumnsIcon } from "@heroicons/vue/24/solid";
+import { PlusIcon } from "@heroicons/vue/24/solid";
 
 const modal = useModalStore();
 
