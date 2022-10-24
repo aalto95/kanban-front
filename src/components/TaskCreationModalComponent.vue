@@ -2,8 +2,8 @@
   <div
     w:blur="xl"
     w:position="fixed"
-    w:h="screen"
-    w:w="screen"
+    w:h="full"
+    w:w="full"
     w:top="0"
     w:bg="black opacity-50"
     w:display="flex"
@@ -12,17 +12,17 @@
   >
     <div
       w:bg="true-gray-800"
-      w:w="screen md:1/2 xl:1/3"
+      w:w="5/6 md:1/2 xl:1/3"
       w:border="x y true-gray-900 opacity-100 rounded-lg"
       w:p="3"
     >
-      <header w:display="flex" w:justify="end">
+      <header w:display="flex" w:justify="between" w:mb="3">
+        <h1 w:text="white 2xl">Create New Task</h1>
         <button @click="modal.toggleModal(false)" class="text-white">
           <XMarkIcon class="w-6 h-6" />
         </button>
       </header>
       <div w:display="flex" w:flex="col" w:gap="2" w:text="white">
-        <h1 w:text="white">Task Creation Modal</h1>
         <input
           type="text"
           placeholder="Title"
@@ -62,6 +62,7 @@
             w:px="4"
             w:border="rounded-xl"
             w:text="white"
+            class="focus:shadow-md"
           >
             Add
           </button>

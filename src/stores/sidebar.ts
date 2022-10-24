@@ -7,7 +7,6 @@ export const useSidebarStore = defineStore("sidebar", () => {
 
   function getSidebarStateFromLocalStorage() {
     const sidebarState = getLocalStorage("sidebarState");
-    console.log(sidebarState);
     sidebarState && (isSidebarOpen.value = true);
   }
 

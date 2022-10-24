@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useKanbanStore } from "@/stores/kanban";
 import { useModalStore } from "@/stores/modal";
-import { onMounted } from "vue";
 import HeaderComponent from "../components/HeaderComponent.vue";
 import TaskCreationModalComponent from "../components/TaskCreationModalComponent.vue";
 import SidebarComponent from "../components/SidebarComponent.vue";
@@ -10,11 +9,6 @@ import { useSidebarStore } from "@/stores/sidebar";
 const kanban = useKanbanStore();
 const modal = useModalStore();
 const sidebar = useSidebarStore();
-
-onMounted(() => {
-  kanban.getTasksFromLocalStorage();
-  kanban.getColumnsFromLocalStorage();
-});
 </script>
 
 <template>
@@ -22,8 +16,8 @@ onMounted(() => {
     <SidebarComponent />
     <div
       w:w="full"
-      :class="sidebar.isSidebarOpen ? 'ml-60' : 'ml-16'"
-      class="transition-all duration-300"
+      class="transition-all duration-300 ml-16"
+      :class="sidebar.isSidebarOpen ? 'md:ml-60' : ''"
     >
       <HeaderComponent />
       <div w:display="flex" w:mx="2" w:gap="2" w:flex="col md:row">
@@ -69,7 +63,7 @@ onMounted(() => {
           </div>
         </section>
       </div>
-      <TaskCreationModalComponent v-if="modal.isModalOpen" />
     </div>
+    <TaskCreationModalComponent v-if="modal.isModalOpen" />
   </main>
 </template>

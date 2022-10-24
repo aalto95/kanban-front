@@ -5,7 +5,7 @@
     w:bg="true-gray-800"
     w:border="r true-gray-700"
     class="fixed transition-all duration-300"
-    :class="sidebar.isSidebarOpen ? 'w-60 mr-60' : 'w-16 mr-16'"
+    :class="sidebar.isSidebarOpen ? 'w-screen md:w-60 md:mr-60' : 'w-16 mr-16'"
   >
     <div w:display="flex" w:h="screen" w:flex="col" w:justify="between">
       <div>
@@ -102,7 +102,6 @@ function changeBoard(id: string) {
 }
 
 onMounted(() => {
-  kanban.getBoardsFromLocalStorage();
   sidebar.getSidebarStateFromLocalStorage();
 });
 </script>

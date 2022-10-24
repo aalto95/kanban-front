@@ -41,9 +41,16 @@ export const useKanbanStore = defineStore("kanban", () => {
 
   function getBoardsFromLocalStorage() {
     const boardsFromLocalStorage = getLocalStorage("boards");
-    boardsFromLocalStorage &&
-      (boards.value = boardsFromLocalStorage) &&
-      (currentBoardId.value = boardsFromLocalStorage[0].id);
+    boardsFromLocalStorage
+      ? (boards.value = boardsFromLocalStorage) &&
+        (currentBoardId.value = boardsFromLocalStorage[0].id)
+      : initBoards();
+  }
+
+  function initBoards() {
+    pushNewBoard({
+      title: "Default Board",
+    });
   }
 
   function initColumns() {
