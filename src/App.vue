@@ -7,8 +7,6 @@ const kanban = useKanbanStore();
 
 onMounted(() => {
   kanban.getBoardsFromLocalStorage();
-  kanban.getTasksFromLocalStorage();
-  kanban.getColumnsFromLocalStorage();
 });
 </script>
 

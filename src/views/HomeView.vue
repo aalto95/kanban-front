@@ -27,7 +27,7 @@ const sidebar = useSidebarStore();
           w:flex="col"
           w:gap="2"
           w:pb="2"
-          v-for="column in kanban.columns"
+          v-for="column in kanban?.boards[0]?.columns"
           :key="column.id"
         >
           <header w:display="flex" w:gap="2" w:items="center" w:mb="4" w:bt="2">
@@ -38,27 +38,22 @@ const sidebar = useSidebarStore();
               :class="column.color"
             ></div>
             <h1 class="uppercase" w:text="true-gray-500">
-              {{ column.title }} ({{
-                kanban.tasks.filter((task) => task.columnId === column.id)
-                  .length
-              }})
+              {{ column.title }} ({{ column.tasks?.length || 0 }})
             </h1>
           </header>
           <div
-            v-for="todo in kanban.tasks.filter(
-              (task) => task.columnId === column.id
-            )"
-            :key="todo.id"
+            v-for="task in column.tasks"
+            :key="task.id"
             w:bg="true-gray-800"
             w:border="x y rounded-xl true-gray-700"
             w:text="white"
             w:p="2"
           >
             <h1>
-              {{ todo.title }}
+              {{ task.title }}
             </h1>
             <p>
-              {{ todo.description }}
+              {{ task.description }}
             </p>
           </div>
         </section>

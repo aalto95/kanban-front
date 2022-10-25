@@ -4,99 +4,76 @@ import { getLocalStorage } from "@/utils/local-storage.util";
 import { ref } from "vue";
 import { defineStore } from "pinia";
 import type { TaskModel } from "@/models/task.model";
-import type { ColumnModel } from "@/models/column.model";
 
 export const useKanbanStore = defineStore("kanban", () => {
-  const tasks = ref<TaskModel[]>([]);
-  const columns = ref<ColumnModel[]>([]);
-  const boards = ref<BoardModel[]>([]);
   const currentBoard = ref<BoardModel | null>(null);
+  const boards = ref<BoardModel[]>([]);
 
-  function pushNewTask(task: Partial<TaskModel>) {
+  function pushNewTask(
+    task: Partial<TaskModel>,
+    columnId: string,
+    boardId: string
+  ) {
     task.id = self.crypto.randomUUID();
-    tasks.value.push(task as TaskModel);
-    setLocalStorage("tasks", tasks.value);
+    setBoards();
   }
 
-  function removeTask(task: TaskModel) {
-    tasks.value = tasks.value.filter((t) => t.id !== task.id);
-    setLocalStorage("tasks", tasks.value);
-  }
-
-  function getTasksFromLocalStorage() {
-    const tasksFromLocalStorage = getLocalStorage("tasks");
-    tasksFromLocalStorage && (tasks.value = tasksFromLocalStorage);
+  function removeTask(task: TaskModel, columnId: string, boardId: string) {
+    setBoards();
   }
 
   function pushNewBoard(board: Partial<BoardModel>) {
     board.id = self.crypto.randomUUID();
-    boards.value.push(board as BoardModel);
-    setLocalStorage("boards", boards.value);
+    boards.value?.push(board as BoardModel);
+    setBoards();
   }
 
   function removeBoard(board: BoardModel) {
-    boards.value = boards.value.filter((b) => b.id !== board.id);
-    setLocalStorage("boards", boards.value);
+    boards.value?.filter((b) => b.id !== board.id);
+    setBoards();
   }
 
   function getBoardsFromLocalStorage() {
     const boardsFromLocalStorage = getLocalStorage("boards");
-    const currentBoardFromLocalStorage = getLocalStorage("currentBoard");
     boardsFromLocalStorage
-      ? (boards.value = boardsFromLocalStorage) &&
-        (currentBoard.value = currentBoardFromLocalStorage)
+      ? (boards.value = boardsFromLocalStorage)
       : initBoards();
   }
 
   function initBoards() {
-    pushNewBoard({
-      title: "Default Board",
-    });
-    const boardsFromLocalStorage = getLocalStorage("boards");
-    setLocalStorage("currentBoard", boardsFromLocalStorage[0]);
-    const currentBoardFromLocalStorage = getLocalStorage("currentBoard");
-    currentBoard.value = currentBoardFromLocalStorage;
-  }
-
-  function initColumns() {
-    const initialColumns = [
+    const initialBoards: BoardModel[] = [
       {
         id: self.crypto.randomUUID(),
-        title: "To Do",
-        order: 0,
-        color: "bg-red-100",
-      },
-      {
-        id: self.crypto.randomUUID(),
-        title: "In Progress",
-        order: 1,
-        color: "bg-yellow-100",
-      },
-      {
-        id: self.crypto.randomUUID(),
-        title: "Done",
-        order: 2,
-        color: "bg-green-100",
+        title: "Default Board",
+        columns: [
+          {
+            id: self.crypto.randomUUID(),
+            title: "To Do",
+            order: 0,
+            color: "bg-red-100",
+          },
+          {
+            id: self.crypto.randomUUID(),
+            title: "In Progress",
+            order: 1,
+            color: "bg-yellow-100",
+          },
+          {
+            id: self.crypto.randomUUID(),
+            title: "Done",
+            order: 2,
+            color: "bg-green-100",
+          },
+        ],
       },
     ];
-    columns.value = initialColumns;
-    setLocalStorage("columns", columns.value);
+
+    boards.value = initialBoards;
+    setLocalStorage("boards", boards.value);
   }
 
-  function getColumnsFromLocalStorage() {
-    const gottenColumns = getLocalStorage("columns");
-    gottenColumns ? (columns.value = gottenColumns) : initColumns();
-  }
-
-  function pushNewColumn(column: Partial<ColumnModel>) {
-    column.id = self.crypto.randomUUID();
-    columns.value.push(column as ColumnModel);
-    setLocalStorage("columns", columns.value);
-  }
-
-  function removeColumn(column: ColumnModel) {
-    columns.value = columns.value.filter((c) => c !== column);
-    setLocalStorage("columns", columns.value);
+  function setBoards() {
+    setLocalStorage("boards", boards.value);
   }
 
   function setCurrentBoard(board: BoardModel) {
@@ -105,19 +82,14 @@ export const useKanbanStore = defineStore("kanban", () => {
   }
 
   return {
-    tasks,
-    columns,
-    boards,
     currentBoard,
+    boards,
     pushNewTask,
-    getTasksFromLocalStorage,
-    getColumnsFromLocalStorage,
-    pushNewColumn,
     removeTask,
-    removeColumn,
     pushNewBoard,
     removeBoard,
-    getBoardsFromLocalStorage,
     setCurrentBoard,
+    setBoards,
+    getBoardsFromLocalStorage,
   };
 });

@@ -48,7 +48,7 @@
         >
           <option
             :value="column.id"
-            v-for="column in kanban.columns"
+            v-for="column in kanban.boards[0].columns"
             :key="column.id"
           >
             {{ column.title }}
@@ -87,7 +87,7 @@ const newTask = ref({
   columnId: "",
 });
 
-function addNewTask() {
+function addNewTask(boardId, columnId) {
   kanban.pushNewTask(newTask.value);
   setTimeout(() => {
     modal.toggleModal(false);
