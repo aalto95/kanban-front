@@ -10,7 +10,7 @@ export const useKanbanStore = defineStore("kanban", () => {
   const tasks = ref<TaskModel[]>([]);
   const columns = ref<ColumnModel[]>([]);
   const boards = ref<BoardModel[]>([]);
-  const currentBoardId = ref<string>("");
+  const currentBoard = ref<BoardModel | null>(null);
 
   function pushNewTask(task: Partial<TaskModel>) {
     task.id = self.crypto.randomUUID();
@@ -41,9 +41,10 @@ export const useKanbanStore = defineStore("kanban", () => {
 
   function getBoardsFromLocalStorage() {
     const boardsFromLocalStorage = getLocalStorage("boards");
+    const currentBoardFromLocalStorage = getLocalStorage("currentBoard");
     boardsFromLocalStorage
       ? (boards.value = boardsFromLocalStorage) &&
-        (currentBoardId.value = boardsFromLocalStorage[0].id)
+        (currentBoard.value = currentBoardFromLocalStorage)
       : initBoards();
   }
 
@@ -51,6 +52,10 @@ export const useKanbanStore = defineStore("kanban", () => {
     pushNewBoard({
       title: "Default Board",
     });
+    const boardsFromLocalStorage = getLocalStorage("boards");
+    setLocalStorage("currentBoard", boardsFromLocalStorage[0]);
+    const currentBoardFromLocalStorage = getLocalStorage("currentBoard");
+    currentBoard.value = currentBoardFromLocalStorage;
   }
 
   function initColumns() {
@@ -94,15 +99,16 @@ export const useKanbanStore = defineStore("kanban", () => {
     setLocalStorage("columns", columns.value);
   }
 
-  function setCurrentBoardId(id: string) {
-    currentBoardId.value = id;
+  function setCurrentBoard(board: BoardModel) {
+    currentBoard.value = board;
+    setLocalStorage("currentBoard", currentBoard.value);
   }
 
   return {
     tasks,
     columns,
     boards,
-    currentBoardId,
+    currentBoard,
     pushNewTask,
     getTasksFromLocalStorage,
     getColumnsFromLocalStorage,
@@ -112,6 +118,6 @@ export const useKanbanStore = defineStore("kanban", () => {
     pushNewBoard,
     removeBoard,
     getBoardsFromLocalStorage,
-    setCurrentBoardId,
+    setCurrentBoard,
   };
 });
