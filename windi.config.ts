@@ -17,5 +17,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [formsPlugin],
+  plugins: [formsPlugin, require("daisyui")],
 });

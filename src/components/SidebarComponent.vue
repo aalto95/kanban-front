@@ -38,7 +38,7 @@
             v-for="board in kanban.boards"
             :key="board.id"
             :class="[
-              kanban.currentBoard?.id === board.id ? 'bg-violet-500' : '',
+              kanban.currentBoardId === board.id ? 'bg-violet-500' : '',
               sidebar.isSidebarOpen ? 'pl-2' : '',
             ]"
             w:border="rounded-tr-full rounded-br-full"
@@ -47,7 +47,7 @@
             w:gap="2"
             w:py="2"
             w:mr="2"
-            @click="changeBoard(board)"
+            @click="changeBoard(board.id)"
           >
             <DocumentIcon class="w-6 h-6" />
             {{ board.title }}
@@ -85,7 +85,6 @@ import {
 import { useSidebarStore } from "@/stores/sidebar";
 import { onMounted } from "vue";
 import { useKanbanStore } from "@/stores/kanban";
-import type { BoardModel } from "@/models/board.model";
 
 const sidebar = useSidebarStore();
 const kanban = useKanbanStore();
@@ -98,12 +97,13 @@ function addNewBoard() {
   kanban.pushNewBoard({ title: "New Board" });
 }
 
-function changeBoard(board: BoardModel) {
-  kanban.setCurrentBoard(board);
+function changeBoard(boardId: string) {
+  kanban.setCurrentBoard(boardId);
 }
 
 onMounted(() => {
   sidebar.getSidebarStateFromLocalStorage();
+  kanban.getCurrentBoardIdFromLocalStorage();
 });
 </script>
 

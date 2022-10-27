@@ -23,19 +23,9 @@ function handleAdd() {
     w:mb="4"
   >
     <h1 w:text="3xl white" w:font="bold">
-      {{ kanban.currentBoard?.title }}
+      {{ kanban.currentBoardTitle }}
     </h1>
-    <button
-      w:bg="indigo-500"
-      w:border="rounded-full"
-      w:p="2 md:3"
-      w:text="white"
-      w:display="flex"
-      w:justify="center"
-      w:items="center"
-      w:gap="2"
-      @click="handleAdd()"
-    >
+    <button class="btn btn-primary gap-2" @click="handleAdd()">
       <PlusIcon class="w-6 h-6" />
       <p w:display="hidden md:block">Add New Task</p>
     </button>

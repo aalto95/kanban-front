@@ -1,20 +1,34 @@
 import type { BoardModel } from "@/models/board.model";
 import { setLocalStorage } from "@/utils/local-storage.util";
 import { getLocalStorage } from "@/utils/local-storage.util";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { defineStore } from "pinia";
 import type { TaskModel } from "@/models/task.model";
 
 export const useKanbanStore = defineStore("kanban", () => {
-  const currentBoard = ref<BoardModel | null>(null);
+  const currentBoardId = ref<string | null>(null);
   const boards = ref<BoardModel[]>([]);
+  const currentBoardTitle = computed(() => {
+    const board = boards.value.find(
+      (board) => board.id === currentBoardId.value
+    );
+    return board?.title;
+  });
+  const currentBoardIndex = computed(() => {
+    return boards.value.findIndex((board) => board.id === currentBoardId.value);
+  });
 
-  function pushNewTask(
-    task: Partial<TaskModel>,
-    columnId: string,
-    boardId: string
-  ) {
+  function pushNewTask(task: Partial<TaskModel>, columnId: string) {
     task.id = self.crypto.randomUUID();
+    const boardIndex = boards.value.findIndex(
+      (board) => board.id === currentBoardId.value
+    );
+    const columnIndex = boards.value[boardIndex].columns.findIndex(
+      (column) => column.id === columnId
+    );
+    boards.value[boardIndex].columns[columnIndex].tasks?.push(
+      task as TaskModel
+    );
     setBoards();
   }
 
@@ -51,18 +65,21 @@ export const useKanbanStore = defineStore("kanban", () => {
             title: "To Do",
             order: 0,
             color: "bg-red-100",
+            tasks: [],
           },
           {
             id: self.crypto.randomUUID(),
             title: "In Progress",
             order: 1,
             color: "bg-yellow-100",
+            tasks: [],
           },
           {
             id: self.crypto.randomUUID(),
             title: "Done",
             order: 2,
             color: "bg-green-100",
+            tasks: [],
           },
         ],
       },
@@ -76,14 +93,22 @@ export const useKanbanStore = defineStore("kanban", () => {
     setLocalStorage("boards", boards.value);
   }
 
-  function setCurrentBoard(board: BoardModel) {
-    currentBoard.value = board;
-    setLocalStorage("currentBoard", currentBoard.value);
+  function setCurrentBoard(boardId: string) {
+    currentBoardId.value = boardId;
+    setLocalStorage("currentBoardId", currentBoardId.value);
+  }
+
+  function getCurrentBoardIdFromLocalStorage() {
+    const currentBoardIdFromLocalStorage = getLocalStorage("currentBoardId");
+    currentBoardIdFromLocalStorage &&
+      (currentBoardId.value = currentBoardIdFromLocalStorage);
   }
 
   return {
-    currentBoard,
+    currentBoardId,
     boards,
+    currentBoardTitle,
+    currentBoardIndex,
     pushNewTask,
     removeTask,
     pushNewBoard,
@@ -91,5 +116,6 @@ export const useKanbanStore = defineStore("kanban", () => {
     setCurrentBoard,
     setBoards,
     getBoardsFromLocalStorage,
+    getCurrentBoardIdFromLocalStorage,
   };
 });

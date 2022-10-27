@@ -27,7 +27,7 @@ const sidebar = useSidebarStore();
           w:flex="col"
           w:gap="2"
           w:pb="2"
-          v-for="column in kanban?.boards[0]?.columns"
+          v-for="column in kanban?.boards[kanban.currentBoardIndex]?.columns"
           :key="column.id"
         >
           <header w:display="flex" w:gap="2" w:items="center" w:mb="4" w:bt="2">

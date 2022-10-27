@@ -55,17 +55,7 @@
           </option>
         </select>
         <footer w:display="flex" w:justify="end">
-          <button
-            @click="addNewTask()"
-            w:bg="indigo-500"
-            w:py="2"
-            w:px="4"
-            w:border="rounded-xl"
-            w:text="white"
-            class="focus:shadow-md"
-          >
-            Add
-          </button>
+          <button @click="addNewTask()" class="btn btn-primary">Add</button>
         </footer>
       </div>
     </div>
@@ -87,8 +77,14 @@ const newTask = ref({
   columnId: "",
 });
 
-function addNewTask(boardId, columnId) {
-  kanban.pushNewTask(newTask.value);
+function addNewTask() {
+  kanban.pushNewTask(
+    {
+      title: newTask.value.title,
+      description: newTask.value.description,
+    },
+    newTask.value.columnId
+  );
   setTimeout(() => {
     modal.toggleModal(false);
   }, 0);
