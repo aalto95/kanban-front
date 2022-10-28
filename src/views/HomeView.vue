@@ -59,6 +59,6 @@ const sidebar = useSidebarStore();
         </section>
       </div>
     </div>
-    <TaskCreationModalComponent v-if="modal.isModalOpen" />
+    <TaskCreationModalComponent />
   </main>
 </template>

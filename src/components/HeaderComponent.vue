@@ -25,10 +25,10 @@ function handleAdd() {
     <h1 w:text="3xl white" w:font="bold">
       {{ kanban.currentBoardTitle }}
     </h1>
-    <button class="btn btn-primary gap-2" @click="handleAdd()">
+    <label class="btn modal-button gap-2" for="my-modal-4">
       <PlusIcon class="w-6 h-6" />
       <p w:display="hidden md:block">Add New Task</p>
-    </button>
+    </label>
   </header>
 </template>
 
