@@ -1,3 +1,4 @@
+import { useNotificationsStore } from "./notifications";
 import type { BoardModel } from "@/models/board.model";
 import { setLocalStorage } from "@/utils/local-storage.util";
 import { getLocalStorage } from "@/utils/local-storage.util";
@@ -6,6 +7,7 @@ import { defineStore } from "pinia";
 import type { TaskModel } from "@/models/task.model";
 
 export const useKanbanStore = defineStore("kanban", () => {
+  const notifications = useNotificationsStore();
   const currentBoardId = ref<string | null>(null);
   const boards = ref<BoardModel[]>([]);
   const currentBoardTitle = computed(() => {
@@ -29,10 +31,20 @@ export const useKanbanStore = defineStore("kanban", () => {
     boards.value[boardIndex].columns[columnIndex].tasks?.push(
       task as TaskModel
     );
+    notifications.pushNewToast("New task added");
     setBoards();
   }
 
-  function removeTask(task: TaskModel, columnId: string, boardId: string) {
+  function removeTask(taskId: string, columnId: string) {
+    const boardIndex = boards.value.findIndex(
+      (board) => board.id === currentBoardId.value
+    );
+    const columnIndex = boards.value[boardIndex].columns.findIndex(
+      (column) => column.id === columnId
+    );
+    boards.value[boardIndex].columns[columnIndex].tasks = boards.value[
+      boardIndex
+    ].columns[columnIndex].tasks?.filter((task) => task.id !== taskId);
     setBoards();
   }
 

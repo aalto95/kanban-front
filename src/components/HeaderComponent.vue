@@ -12,23 +12,18 @@ function handleAdd() {
 </script>
 
 <template>
-  <header
-    w:display="flex"
-    w:justify="between"
-    w:items="center"
-    w:bg="true-gray-800"
-    w:h="16 md:24"
-    w:px="4 md:8"
-    w:border="b true-gray-700"
-    w:mb="4"
-  >
-    <h1 w:text="3xl white" w:font="bold">
-      {{ kanban.currentBoardTitle }}
-    </h1>
-    <label class="btn modal-button gap-2" for="my-modal-4">
-      <PlusIcon class="w-6 h-6" />
-      <p w:display="hidden md:block">Add New Task</p>
-    </label>
+  <header class="navbar bg-true-gray-800 mb-2">
+    <div class="flex-1">
+      <h1 w:text="3xl white" w:font="bold">
+        {{ kanban.currentBoardTitle }}
+      </h1>
+    </div>
+    <div class="flex-none">
+      <button class="btn modal-button gap-2" @click="handleAdd()">
+        <PlusIcon class="w-6 h-6" />
+        <p w:display="hidden md:block">Add New Task</p>
+      </button>
+    </div>
   </header>
 </template>
 

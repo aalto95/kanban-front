@@ -5,10 +5,13 @@ import HeaderComponent from "../components/HeaderComponent.vue";
 import TaskCreationModalComponent from "../components/TaskCreationModalComponent.vue";
 import SidebarComponent from "../components/SidebarComponent.vue";
 import { useSidebarStore } from "@/stores/sidebar";
+import { useNotificationsStore } from "@/stores/notifications";
+import { XMarkIcon } from "@heroicons/vue/24/solid";
 
 const kanban = useKanbanStore();
 const modal = useModalStore();
 const sidebar = useSidebarStore();
+const notifications = useNotificationsStore();
 </script>
 
 <template>
@@ -20,7 +23,13 @@ const sidebar = useSidebarStore();
       :class="sidebar.isSidebarOpen ? 'md:ml-60' : ''"
     >
       <HeaderComponent />
-      <div w:display="flex" w:mx="2" w:gap="2" w:flex="col md:row">
+      <div
+        w:display="flex"
+        w:mx="2"
+        w:gap="2"
+        w:flex="col md:row"
+        v-auto-animate
+      >
         <section
           w:w="full md:1/3"
           w:display="flex"
@@ -29,6 +38,7 @@ const sidebar = useSidebarStore();
           w:pb="2"
           v-for="column in kanban?.boards[kanban.currentBoardIndex]?.columns"
           :key="column.id"
+          v-auto-animate
         >
           <header w:display="flex" w:gap="2" w:items="center" w:mb="4" w:bt="2">
             <div
@@ -49,6 +59,12 @@ const sidebar = useSidebarStore();
             w:text="white"
             w:p="2"
           >
+            <button
+              @click="kanban.removeTask(task.id, column.id)"
+              class="text-white"
+            >
+              <XMarkIcon class="w-6 h-6" />
+            </button>
             <h1>
               {{ task.title }}
             </h1>
@@ -59,6 +75,18 @@ const sidebar = useSidebarStore();
         </section>
       </div>
     </div>
-    <TaskCreationModalComponent />
+    <TaskCreationModalComponent v-if="modal.isModalOpen" />
+    <div class="toast">
+      <ul
+        class="alert alert-success"
+        v-for="toast in notifications.toastStack"
+        :key="toast.id"
+        v-auto-animate
+      >
+        <li>
+          <span>{{ toast.title }}</span>
+        </li>
+      </ul>
+    </div>
   </main>
 </template>
