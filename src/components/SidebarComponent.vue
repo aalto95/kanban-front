@@ -94,7 +94,7 @@ function toggleSidebar() {
 }
 
 function addNewBoard() {
-  kanban.pushNewBoard({ title: "New Board" });
+  kanban.pushNewBoard();
 }
 
 function changeBoard(boardId: string) {

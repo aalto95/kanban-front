@@ -48,9 +48,9 @@ export const useKanbanStore = defineStore("kanban", () => {
     setBoards();
   }
 
-  function pushNewBoard(board: Partial<BoardModel>) {
-    board.id = self.crypto.randomUUID();
-    boards.value?.push(board as BoardModel);
+  function pushNewBoard() {
+    const newBoard = generateNewBoard("New board");
+    boards.value?.push(newBoard as BoardModel);
     setBoards();
   }
 
@@ -66,10 +66,10 @@ export const useKanbanStore = defineStore("kanban", () => {
       : initBoards();
   }
 
-  function initBoards() {
-    const initialBoard: BoardModel = {
+  function generateNewBoard(title: string) {
+    const board: BoardModel = {
       id: self.crypto.randomUUID(),
-      title: "Default Board",
+      title: title,
       columns: [
         {
           id: self.crypto.randomUUID(),
@@ -94,6 +94,11 @@ export const useKanbanStore = defineStore("kanban", () => {
         },
       ],
     };
+    return board;
+  }
+
+  function initBoards() {
+    const initialBoard: BoardModel = generateNewBoard("Default Board");
     boards.value.push(initialBoard);
     setCurrentBoard(initialBoard.id);
     setLocalStorage("boards", boards.value);
