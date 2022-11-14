@@ -67,37 +67,35 @@ export const useKanbanStore = defineStore("kanban", () => {
   }
 
   function initBoards() {
-    const initialBoards: BoardModel[] = [
-      {
-        id: self.crypto.randomUUID(),
-        title: "Default Board",
-        columns: [
-          {
-            id: self.crypto.randomUUID(),
-            title: "To Do",
-            order: 0,
-            color: "bg-red-100",
-            tasks: [],
-          },
-          {
-            id: self.crypto.randomUUID(),
-            title: "In Progress",
-            order: 1,
-            color: "bg-yellow-100",
-            tasks: [],
-          },
-          {
-            id: self.crypto.randomUUID(),
-            title: "Done",
-            order: 2,
-            color: "bg-green-100",
-            tasks: [],
-          },
-        ],
-      },
-    ];
-
-    boards.value = initialBoards;
+    const initialBoard: BoardModel = {
+      id: self.crypto.randomUUID(),
+      title: "Default Board",
+      columns: [
+        {
+          id: self.crypto.randomUUID(),
+          title: "To Do",
+          order: 0,
+          color: "bg-red-100",
+          tasks: [],
+        },
+        {
+          id: self.crypto.randomUUID(),
+          title: "In Progress",
+          order: 1,
+          color: "bg-yellow-100",
+          tasks: [],
+        },
+        {
+          id: self.crypto.randomUUID(),
+          title: "Done",
+          order: 2,
+          color: "bg-green-100",
+          tasks: [],
+        },
+      ],
+    };
+    boards.value.push(initialBoard);
+    setCurrentBoard(initialBoard.id);
     setLocalStorage("boards", boards.value);
   }
 
@@ -112,8 +110,9 @@ export const useKanbanStore = defineStore("kanban", () => {
 
   function getCurrentBoardIdFromLocalStorage() {
     const currentBoardIdFromLocalStorage = getLocalStorage("currentBoardId");
-    currentBoardIdFromLocalStorage &&
-      (currentBoardId.value = currentBoardIdFromLocalStorage);
+    currentBoardIdFromLocalStorage
+      ? (currentBoardId.value = currentBoardIdFromLocalStorage)
+      : setCurrentBoard(boards.value[0].id);
   }
 
   return {

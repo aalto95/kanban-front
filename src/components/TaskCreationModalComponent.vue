@@ -9,6 +9,7 @@
     w:display="flex"
     w:justify="center"
     w:items="center"
+    w:z="20"
   >
     <div
       w:bg="true-gray-800"
