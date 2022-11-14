@@ -44,7 +44,7 @@
         >
           <option
             :value="column.id"
-            v-for="column in kanban.boards[0].columns"
+            v-for="column in kanban.boards[kanban.currentBoardIndex].columns"
             :key="column.id"
           >
             {{ column.title }}

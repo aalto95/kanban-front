@@ -10,7 +10,7 @@
     <div w:display="flex" w:h="screen" w:flex="col" w:justify="between">
       <div>
         <header
-          w:h="16 md:24"
+          w:h="16"
           w:display="flex"
           w:items="center"
           w:gap="2"

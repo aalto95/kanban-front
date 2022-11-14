@@ -25,9 +25,11 @@ export const useKanbanStore = defineStore("kanban", () => {
     const boardIndex = boards.value.findIndex(
       (board) => board.id === currentBoardId.value
     );
+    console.log(boardIndex);
     const columnIndex = boards.value[boardIndex].columns.findIndex(
       (column) => column.id === columnId
     );
+    console.log(columnIndex);
     boards.value[boardIndex].columns[columnIndex].tasks?.push(
       task as TaskModel
     );
